@@ -2,4 +2,4 @@
 Feature:Filter
 
   Scenario: Open page
-    Given I open page
+    Given I open page 2
