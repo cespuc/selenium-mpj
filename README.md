@@ -108,3 +108,20 @@ Verify messages
 ## Dependencies
 ![img_1.png](img_1.png)--- <!-- Selenium -->
 ---
+
+
+## GitLab CI/CD Integration
+The project is integrated with GitLab CI/CD using the .gitlab-ci.yml file in the project root.
+
+
+### Pipeline Overview
++ Stage: test
++ Browser: Configurable via BROWSER variable
++ Headless Mode: Chrome runs headless in CI/CD environment
++ Artifacts: HTML and JSON reports, screenshots
+
+#### Pipeline Variables
+
+Variable	        Default	Description
+- BROWSER	chrome	    Browser for Selenium tests
+- BASE_URL: https://demowebshop.tricentis.com/  Base URL of the web application
