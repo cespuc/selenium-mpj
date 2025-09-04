@@ -125,3 +125,58 @@ The project is integrated with GitLab CI/CD using the .gitlab-ci.yml file in the
 Variable	        Default	Description
 - BROWSER	chrome	    Browser for Selenium tests
 - BASE_URL: https://demowebshop.tricentis.com/  Base URL of the web application
+
+#### Triggering Pipeline
+
+Commit and push changes:
+
+```
++ git add .
++ git commit -m "Implement new test steps"
++ git push origin main
+
+```
+GitLab automatically triggers the pipeline.
+
+
+#### Running Specific Tests in Pipeline
+Example: run only smoke tests:
+
+```
+script:
+  - mvn clean test -Dbrowser=$BROWSER -Dcucumber.options="--tags @smok
+```
+
+#### Artifacts and Reports
+After pipeline execution, GitLab stores artifacts:
++ target/cucumber-report.html → HTML report
++ target/cucumber.json → JSON report
++ target/screenshots/ → Screenshots of failed tests
+
+Reports can be downloaded from GitLab pipeline UI.
+
+## Contributing
++ Fork the repository
++ Create a feature branch:
+```
+git checkout -b feature/your-feature
+```
+
+Commit your changes:
+```
+git add .
+git commit -m "Add new step definition"
+```
+
+## Optional: Docker Execution
+Build Docker image:
+```
+docker build -t demowebshop-automation .
+```
+
+Run container:
+```
+docker run --rm -v $(pwd)/target:/usr/src/app/target demowebshop-automation
+```
+
+All reports and screenshots will be stored in target/ folder.
