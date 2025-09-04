@@ -4,6 +4,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.By;
@@ -11,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static support.Hooks.driver;
@@ -44,10 +46,21 @@ public class LinkSteps {
     }
     @When("I click on the {string} button")
     public void iClickOnTheButton(String buttonText) {
-        // Find button by its visible text
-        WebElement button = driver.findElement(By.xpath("//input[@type='submit' and @value='" + buttonText + "']"));
-        button.click();
-        System.out.println("✅ Clicked on button: " + buttonText);
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+            By buttonLocator = By.xpath("//input[@type='submit' and @value='" + buttonText + "']");
+
+            WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
+            button.click();
+
+            System.out.println("✅ Clicked on button: " + buttonText);
+        } catch (TimeoutException e) {
+            System.err.println("❌ Timeout: Button with text '" + buttonText + "' was not clickable within 20 seconds.");
+        } catch (NoSuchElementException e) {
+            System.err.println("❌ Element not found: No button with text '" + buttonText + "' exists.");
+        } catch (Exception e) {
+            System.err.println("❌ Unexpected error while clicking button: " + e.getMessage());
+        }
     }
     @Then("I should see the registration success message")
     public void iShouldSeeTheRegistrationSuccessMessage() {

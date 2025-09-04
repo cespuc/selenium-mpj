@@ -1,18 +1,24 @@
 @smoke
 Feature: Registration
 
-  Scenario: Successful user registration
+
+  Scenario: Registration with Missing Mandatory Fields
     Given I open page
-    Then  I click the link with text "Register"
-    When I enter "Marko" into the "FirstName" field
-    And I enter "Novak" into the "LastName" field
-    And I enter a random email into the Email field
-    And I enter "Test1234!" into the "Password" field
-    And I enter "Test1234!" into the "ConfirmPassword" field
+    And I click the link with text "Register"
+    And I click on the "Register" button
+    Then I should see error message for "First name" with text "First name is required."
+    And I should see error message for "Last name" with text "Last name is required."
+    And I should see error message for "Email" with text "Email is required."
+    And I should see error message for "Password" with text "Password is required."
+    And I should see error message for "Confirm password" with text "Password is required."
+
+  Scenario: Register with Invalid Email Format
+   Given  I enter "invalid-email" into the "Email" field
+   And  I enter "123457" into the "ConfirmPassword" field
+   Then I should see error message for "Confirm password" with text "The password and confirmation password do not match."
+
+  Scenario: Password and Confirm Password Mismatch
+    And  I enter "123456" into the "Password" field
+    And  I should see error message for "Email" with text "Wrong email"
 
 
-
-  Scenario: Successful user registration 1
-    Then I click on the "Register" button
-    And I should see the message "Your registration completed"
-    And I click the Continue button
