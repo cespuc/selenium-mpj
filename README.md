@@ -58,8 +58,7 @@ explicitWait=10
 ```
 - browser → chrome | firefox | edge
 - baseUrl → URL of the application under test
-- implicitWait → default implicit wait in seconds
-- explicitWait → default explicit wait in seconds
+
 
 You can override the browser from the command line:
 
@@ -108,38 +107,3 @@ Verify messages
 
 ## Dependencies
 ![img_1.png](img_1.png)--- <!-- Selenium -->
-<dependency>
-<groupId>org.seleniumhq.selenium</groupId>
-<artifactId>selenium-java</artifactId>
-<version>4.21.0</version>
-</dependency>
-
-<!-- Cucumber -->
-<dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-java</artifactId>
-    <version>8.11.0</version>
-</dependency>
-<dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-junit</artifactId>
-    <version>8.11.0</version>
-    <scope>test</scope>
-</dependency>
-
-<!-- WebDriverManager -->
-<dependency>
-    <groupId>io.github.bonigarcia</groupId>
-    <artifactId>webdrivermanager</artifactId>
-    <version>5.5.3</version>
-</dependency>
-
-<!-- JUnit -->
-<dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-    <version>4.13.2</version>
-    <scope>test</scope>
-</dependency>
-
----
