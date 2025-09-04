@@ -18,7 +18,28 @@ Feature: Registration
    Then I should see error message for "Confirm password" with text "The password and confirmation password do not match."
 
   Scenario: Password and Confirm Password Mismatch
-    And  I enter "123456" into the "Password" field
+    Given  I enter "123456" into the "Password" field
     And  I should see error message for "Email" with text "Wrong email"
+
+
+  Scenario: Attempt to register with weak password
+    Given I click the link with text "Register"
+    And  I enter "123" into the "Password" field
+    And  I enter "123" into the "ConfirmPassword" field
+    And I should see error message for "Password" with text "The password should have at least 6 characters."
+
+
+  Scenario: Register with valid details
+    Given I click the link with text "Register"
+    And I enter "Jure" into the "FirstName" field
+    And I enter "Novak" into the "LastName" field
+    And I enter a random email into the Email field
+    And I enter "1233456" into the "Password" field
+    And I enter "1233456" into the "ConfirmPassword" field
+    And I click on the "Register" button
+    Then I should see the registration success message
+    And I click the Continue button
+    And I click the link with text "Register"
+
 
 
