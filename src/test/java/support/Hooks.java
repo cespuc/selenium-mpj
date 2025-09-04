@@ -1,51 +1,35 @@
 package support;
 
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
+import io.cucumber.java.AfterAll;
+import io.cucumber.java.BeforeAll;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import java.time.Duration;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import utils.DriverFactory;
+import utils.ConfigReader;
 
 public class Hooks {
+
     public static WebDriver driver;
 
-    @Before
-    public void setUp() {
-        // 1. Check system property first (-Dbrowser=firefox), fallback to config.properties
+    @BeforeAll
+    public static void setUp() {
+        // Get browser from system property or config
         String browser = System.getProperty("browser", ConfigReader.get("browser"));
-
         System.out.println("Launching browser: " + browser);
 
-        switch (browser.toLowerCase()) {
-            case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
-                break;
-            case "edge":
-                WebDriverManager.edgedriver().setup();
-                driver = new EdgeDriver();
-                break;
-            default:
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
-                break;
-        }
+        // Initialize driver via DriverFactory
+        driver = DriverFactory.getDriver(browser);
 
-        // Implicit wait from config.properties
-        driver.manage().timeouts().implicitlyWait(
-                Duration.ofSeconds(Long.parseLong(ConfigReader.get("implicitWait")))
-        );
+        // Navigate to base URL
+        String baseUrl = ConfigReader.get("baseUrl");
+        driver.get(baseUrl);
 
-        driver.manage().window().maximize();
+        System.out.println("✅ Browser started and navigated to: " + baseUrl);
     }
 
-    @After
-    public void tearDown() {
-        if (driver != null) {
-        //    driver.quit();
-        }
+    @AfterAll
+    public static void tearDown() {
+        // Quit driver once after all tests
+        DriverFactory.quitDriver();
+        System.out.println("✅ Browser closed after all tests");
     }
 }

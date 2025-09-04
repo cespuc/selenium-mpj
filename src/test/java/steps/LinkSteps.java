@@ -3,15 +3,23 @@ package steps;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import support.Hooks;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import java.time.Duration;
+
 
 import java.util.UUID;
 
 import static support.Hooks.driver;
 
+
 public class LinkSteps {
+
+
 
     @When("I click the link with text {string}")
     public void i_click_the_link_with_text(String linkText) {
@@ -64,6 +72,27 @@ public class LinkSteps {
         );
 
         System.out.println("✅ Verified message: " + actualMessage);
+    }
+    @When("I navigate to the home page")
+    public void iNavigateToTheHomePage() {
+        driver.get("https://demowebshop.tricentis.com/");
+        System.out.println("✅ Navigated to homepage");
+    }
+
+    @When("I click the Continue button")
+    public void iClickTheContinueButton() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement continueButton = wait.until(
+                ExpectedConditions.elementToBeClickable(By.cssSelector("input.register-continue-button"))
+        );
+
+        // Scroll into view
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", continueButton);
+
+        // Click using JS to avoid overlay issues
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", continueButton);
+
+        System.out.println("✅ Continue button clicked");
     }
 
 }

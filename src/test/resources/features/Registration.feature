@@ -1,7 +1,7 @@
 @smoke
-Feature: Login page
+Feature: Registration
 
-  Scenario: Open page
+  Scenario: Successful user registration
     Given I open page
     Then  I click the link with text "Register"
     When I enter "Marko" into the "FirstName" field
@@ -9,7 +9,10 @@ Feature: Login page
     And I enter a random email into the Email field
     And I enter "Test1234!" into the "Password" field
     And I enter "Test1234!" into the "ConfirmPassword" field
-    And I click on the "Register" button
-    Then I should see the message "Your registration completed"
 
 
+
+  Scenario: Successful user registration 1
+    Then I click on the "Register" button
+    And I should see the message "Your registration completed"
+    And I click the Continue button
