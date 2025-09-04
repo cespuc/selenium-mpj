@@ -1,0 +1,38 @@
+# .gitlab-ci.yml
+stages:
+  - test
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  BROWSER: "chrome"
+  DISPLAY: ":99"
+
+test_job:
+  stage: test
+  image: maven:3.9.2-jdk-11
+  before_script:
+    # Install dependencies for Chrome
+    - apt-get update && apt-get install -y wget unzip xvfb libxi6 libgconf-2-4
+    # Install Chrome
+    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - dpkg -i google-chrome-stable_current_amd64.deb || apt-get -f install -y
+    # Install Chromedriver
+    - CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
+    - wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+    - unzip chromedriver_linux64.zip
+    - mv chromedriver /usr/local/bin/
+    - chmod +x /usr/local/bin/chromedriver
+    # Start headless display
+    - Xvfb $DISPLAY -screen 0 1920x1080x16 &
+
+  script:
+    # Run Selenium + Cucumber tests in headless mode
+    - mvn clean test -Dbrowser=$BROWSER
+
+  artifacts:
+    # Collect reports and JSON for future reference
+    paths:
+      - target/cucumber-report.html
+      - target/cucumber.json
+      - target/screenshots/
+    expire_in: 1 week
