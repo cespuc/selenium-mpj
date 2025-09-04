@@ -10,6 +10,6 @@ Feature: Login page
     And I enter "Test1234!" into the "Password" field
     And I enter "Test1234!" into the "ConfirmPassword" field
     And I click on the "Register" button
-    Then I should see the registration success message
+    Then I should see the message "Your registration completed"
 
 
