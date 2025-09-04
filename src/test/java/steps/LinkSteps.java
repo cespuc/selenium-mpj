@@ -52,5 +52,18 @@ public class LinkSteps {
         Assert.assertEquals("❌ Registration message does not match!", expectedText, actualText);
         System.out.println("✅ Registration verified: " + actualText);
     }
+    @Then("I should see the message {string}")
+    public void iShouldSeeTheMessage(String expectedMessage) {
+        WebElement messageElement = driver.findElement(By.cssSelector("div.result, div.validation-summary-errors, span.field-validation-error"));
+
+        String actualMessage = messageElement.getText().trim();
+
+        Assert.assertTrue(
+                "❌ Expected message not found. Actual: " + actualMessage,
+                actualMessage.contains(expectedMessage)
+        );
+
+        System.out.println("✅ Verified message: " + actualMessage);
+    }
 
 }
