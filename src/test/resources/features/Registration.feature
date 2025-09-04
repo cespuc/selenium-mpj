@@ -39,7 +39,7 @@ Feature: Registration
     And I click on the "Register" button
     Then I should see the registration success message
     And I click the Continue button
-    And I click the link with text "Register"
+
 
 
 
