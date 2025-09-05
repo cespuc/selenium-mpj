@@ -13,16 +13,6 @@ import static support.Hooks.driver;
 
 public class SearchSteps {
 
-    @When("I open Bing homepage")
-    public void i_open_bing_homepage() {
-        driver.get("https://www.bing.com");
-    }
-
-    @Then("the Bing title should contain {string}")
-    public void the_bing_title_should_contain(String expected) {
-        String title = driver.getTitle();
-        assertTrue(title.contains(expected));
-    }
 
     @When("user navigates to My account page")
     public void user_navigates_to_my_account_page() {
