@@ -10,8 +10,11 @@ Feature: Login
 
   Scenario: Successful login with valid credentials
     Given  I enter "cespuc@gmail.com" into the "Email" field
-    And I enter "123456" into the "Password" field
+    And I enter "abc12345676" into the "Password" field
     And I click on the "Log in" button
+    And I accept the browser popup
     Then I click the link with text "cespuc@gmail.com"
-    And user navigates to My account page
+    And I click the link with text "Log out"
+
+
 

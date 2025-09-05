@@ -3,7 +3,9 @@ package steps;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.junit.Assert;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import support.Hooks;
 
 import static org.junit.Assert.assertTrue;
@@ -41,5 +43,21 @@ public class SearchSteps {
 
         // Debug print
         System.out.println("Verified Customer Info: " + actualFirst + " " + actualLast + " / " + actualEmail);
+    }
+
+    @Then("I accept the browser popup")
+    public void i_accept_the_browser_popup() {
+        try {
+            // Switch focus to alert
+            Alert alert = driver.switchTo().alert();
+
+            // Print the text (optional, for debugging)
+            System.out.println("Popup text: " + alert.getText());
+
+            // Click OK (accept)
+            alert.accept();
+        } catch (NoAlertPresentException e) {
+            System.out.println("No alert popup appeared.");
+        }
     }
 }
