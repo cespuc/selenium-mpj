@@ -1,4 +1,5 @@
 @smoke
+@registration
 Feature: Registration
 
 
